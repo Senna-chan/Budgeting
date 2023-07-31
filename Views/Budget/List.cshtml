@@ -1,0 +1,96 @@
+﻿@model IEnumerable<Budgeting.Models.BudgetEntry>
+
+@{
+    ViewData["Title"] = "List";
+}
+
+<h1>List</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FixedEntry)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsIncome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MoneyAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TimeAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FromCreditcard)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ToSharedAccount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransferTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpdatedDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FixedEntry)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsIncome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MoneyAmount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TimeAmount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FromCreditcard)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ToSharedAccount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TransferTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UpdatedDate)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

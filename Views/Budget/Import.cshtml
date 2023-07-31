@@ -1,0 +1,79 @@
+﻿@model IEnumerable<Budgeting.Models.BudgetEntry>
+
+@{
+    ViewData["Title"] = "Import overview";
+}
+
+<h1>Values to import</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FixedEntry)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsIncome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MoneyAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TimeAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FromCreditcard)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ToSharedAccount)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FixedEntry)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsIncome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MoneyAmount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TimeAmount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FromCreditcard)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ToSharedAccount)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<form asp-action="ImportAccept">
+    <input type="hidden" name="FilePath" value="@ViewBag.FilePath" />
+    <div class="form-group">
+        <input type="submit" value="Accept" class="btn btn-success" />
+    </div>
+</form>
+
+<div class="form-group">
+    <a asp-action="Create" class="btn btn-danger">Deny</a>
+</div>
