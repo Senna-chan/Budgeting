@@ -5,7 +5,11 @@
 }
 
 <h1>Values to import</h1>
-
+<p>
+    Green: Value is ready to be imported
+    Orange: Value already exists but its different
+    Gray: Value already exists. Nothing to be done
+</p>
 <table class="table">
     <thead>
         <tr>
@@ -38,7 +42,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+            <tr style="background:@item.Description">
                 <td>
                     @Html.DisplayFor(modelItem => item.FixedEntry)
                 </td>

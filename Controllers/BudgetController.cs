@@ -67,23 +67,21 @@ namespace Budgeting.Controllers
 
         private IEnumerable<BudgetEntry> ParseBudgetXML(string fileName)
         {
+            var currentEntriesTask = _context.BudgetEntry.ToListAsync();
+            currentEntriesTask.Wait();
+            var currentEntries = currentEntriesTask.Result;
             List<BudgetEntry> entries = new List<BudgetEntry>();
             List<string> isExpenceNames = new List<string>() { "C", "D", "E", "F", "G" };
             using (FastExcel.FastExcel fastExcel = new FastExcel.FastExcel(new FileInfo(fileName), true))
             {
                 var sheet = fastExcel.Worksheets[0];
-                sheet.Read(1); // One row for headings
+                sheet.Read();
 
                 List<Row> rows = sheet.Rows.ToList();
-                var test = sheet.ExistingHeadingRows;
                 foreach (Row row in rows)
                 {
                     if (row.RowNumber == 1) continue;
                     List<Cell> columns = row.Cells.ToList();
-                    if (row.GetCellByColumnName("A").Value.Equals("ENDOFLIST"))
-                    {
-                        break;
-                    }
                     BudgetEntry budgetEntry = new BudgetEntry();
                     budgetEntry.FixedEntry = true;
                     foreach(Cell cell in columns)
@@ -144,6 +142,22 @@ namespace Budgeting.Controllers
                                 budgetEntry.MoneyAmount = decimal.Parse(moneyValue); 
                                 break;
                         }
+                    }
+                    var existingEntry = currentEntries.Find(be => be.Name.Equals(budgetEntry.Name));
+                    if(existingEntry != null)
+                    {
+                        if(Math.Abs(existingEntry.MoneyAmount) != budgetEntry.MoneyAmount)
+                        {
+                            budgetEntry.Description = "orange";
+                        }
+                        else
+                        {
+                            budgetEntry.Description = "gray";
+                        }
+                    }
+                    else
+                    {
+                        budgetEntry.Description = "green";
                     }
                     entries.Add(budgetEntry);
                 }

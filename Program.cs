@@ -34,7 +34,7 @@ namespace Budgeting
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Budget}/{action=Index}/{id?}");
+                pattern: "{controller=Budget}/{action=List}/{id?}");
 
             app.Run();
             Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");

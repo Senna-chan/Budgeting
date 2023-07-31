@@ -3,6 +3,7 @@ using System;
 using Budgeting.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Budgeting.Migrations
 {
     [DbContext(typeof(BudgetingContext))]
-    partial class BudgetingContextModelSnapshot : ModelSnapshot
+    [Migration("20230731074040_BudgetAddons")]
+    partial class BudgetAddons
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -23,6 +26,9 @@ namespace Budgeting.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("BudgetListId")
                         .HasColumnType("int");
 
                     b.Property<string>("Category")
@@ -64,28 +70,9 @@ namespace Budgeting.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BudgetEntry");
-                });
-
-            modelBuilder.Entity("Budgeting.Models.BudgetEntryList", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int>("BudgetEntryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BudgetListId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BudgetEntryId");
-
                     b.HasIndex("BudgetListId");
 
-                    b.ToTable("BudgetEntryLists");
+                    b.ToTable("BudgetEntry");
                 });
 
             modelBuilder.Entity("Budgeting.Models.BudgetList", b =>
@@ -107,23 +94,16 @@ namespace Budgeting.Migrations
                     b.ToTable("BudgetList");
                 });
 
-            modelBuilder.Entity("Budgeting.Models.BudgetEntryList", b =>
+            modelBuilder.Entity("Budgeting.Models.BudgetEntry", b =>
                 {
-                    b.HasOne("Budgeting.Models.BudgetEntry", "BudgetEntry")
-                        .WithMany()
-                        .HasForeignKey("BudgetEntryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("Budgeting.Models.BudgetList", null)
+                        .WithMany("BudgetEntries")
+                        .HasForeignKey("BudgetListId");
+                });
 
-                    b.HasOne("Budgeting.Models.BudgetList", "BudgetList")
-                        .WithMany()
-                        .HasForeignKey("BudgetListId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("BudgetEntry");
-
-                    b.Navigation("BudgetList");
+            modelBuilder.Entity("Budgeting.Models.BudgetList", b =>
+                {
+                    b.Navigation("BudgetEntries");
                 });
 #pragma warning restore 612, 618
         }
