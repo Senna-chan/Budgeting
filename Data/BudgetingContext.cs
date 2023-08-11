@@ -32,9 +32,8 @@ namespace Budgeting.Data
             return base.SaveChanges();
         }
 
-        public DbSet<Budgeting.Models.BudgetEntry> BudgetEntry { get; set; } = default!;
+        public DbSet<BudgetEntry> BudgetEntry { get; set; } = default!;
 
-        public DbSet<Budgeting.Models.BudgetList>? BudgetList { get; set; }
-        public DbSet<Budgeting.Models.BudgetEntryList>? BudgetEntryLists { get; set; }
+        public DbSet<BudgetList>? BudgetList { get; set; }
     }
 }

@@ -37,8 +37,6 @@ namespace Budgeting
                 pattern: "{controller=Budget}/{action=List}/{id?}");
 
             app.Run();
-            Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
-            Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture("en-US");
         }
     }
 }

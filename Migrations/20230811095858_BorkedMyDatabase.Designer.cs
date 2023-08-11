@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Budgeting.Migrations
 {
     [DbContext(typeof(BudgetingContext))]
-    [Migration("20230626111851_CreateUpdateTime")]
-    partial class CreateUpdateTime
+    [Migration("20230811095858_BorkedMyDatabase")]
+    partial class BorkedMyDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,6 +21,21 @@ namespace Budgeting.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            modelBuilder.Entity("BudgetEntryBudgetList", b =>
+                {
+                    b.Property<int>("BudgetEntriesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ListsPartOfId")
+                        .HasColumnType("int");
+
+                    b.HasKey("BudgetEntriesId", "ListsPartOfId");
+
+                    b.HasIndex("ListsPartOfId");
+
+                    b.ToTable("BudgetEntryBudgetList");
+                });
 
             modelBuilder.Entity("Budgeting.Models.BudgetEntry", b =>
                 {
@@ -33,6 +48,9 @@ namespace Budgeting.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext");
 
                     b.Property<bool>("FixedEntry")
                         .HasColumnType("tinyint(1)");
@@ -65,6 +83,39 @@ namespace Budgeting.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("BudgetEntry");
+                });
+
+            modelBuilder.Entity("Budgeting.Models.BudgetList", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BudgetList");
+                });
+
+            modelBuilder.Entity("BudgetEntryBudgetList", b =>
+                {
+                    b.HasOne("Budgeting.Models.BudgetEntry", null)
+                        .WithMany()
+                        .HasForeignKey("BudgetEntriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Budgeting.Models.BudgetList", null)
+                        .WithMany()
+                        .HasForeignKey("ListsPartOfId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

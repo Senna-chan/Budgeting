@@ -2,17 +2,15 @@
 {
     public class BudgetListModel
     {
+        public BudgetList BudgetList { get; set; }
         public BudgetEntry entry { get; set; }
         public Dictionary<string, Dictionary<TimeAmount, decimal>> CombinedPrices { get; set; }
         public List<BudgetEntry> BudgetEntries { get; set; }
-        public Dictionary<string, List<BudgetEntry>> BudgetEntriesPerCategory { get; set; }
-        public Dictionary<TimeAmount, List<BudgetEntry>> BudgetEntriesPerTime { get; set; }
         public BudgetListModel()
         {
+            BudgetList = new BudgetList();
             entry = new BudgetEntry();
             BudgetEntries = new List<BudgetEntry>();
-            BudgetEntriesPerCategory = new Dictionary<string, List<BudgetEntry>>();
-            BudgetEntriesPerTime = new Dictionary<TimeAmount, List<BudgetEntry>>();
             CombinedPrices = new Dictionary<string, Dictionary<TimeAmount, decimal>>
             {
                 { "all", entry.CalculateCostsForAllTimes() },

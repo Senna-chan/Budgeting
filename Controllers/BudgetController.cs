@@ -21,20 +21,14 @@ namespace Budgeting.Controllers
             _context = context;
         }
 
-        // GET: Budget
-        public async Task<IActionResult> Index()
+        // GET: Budget/{
+        public async Task<IActionResult> Index(int listId = 0)
         {
-            if(_context.BudgetEntry == null)
-            {
-                return Problem("Entity set 'BudgetingContext.BudgetEntry' is null.");
-            }
             BudgetListModel blm = new BudgetListModel();
             blm.BudgetEntries = await _context.BudgetEntry.ToListAsync();
             blm.BudgetEntries = blm.BudgetEntries.OrderBy(be => be.Category).ToList();
             foreach (var entry in blm.BudgetEntries)
             {
-
-                blm.BudgetEntriesPerTime.TryAdd(entry.TimeAmount, new List<BudgetEntry>());
 
                 var moneyForAllTimes = entry.CalculateCostsForAllTimes();
 
@@ -43,13 +37,8 @@ namespace Budgeting.Controllers
 
                 if (entry.Category != null)
                 {
-                    blm.BudgetEntriesPerCategory.TryAdd(entry.Category, new List<BudgetEntry>());
-
                     blm.AddToCombinedPrices(entry.Category, moneyForAllTimes);
-                    blm.BudgetEntriesPerCategory[entry.Category].Add(entry);
                 }
-
-                blm.BudgetEntriesPerTime[entry.TimeAmount].Add(entry);
 
                 if (entry.ToSharedAccount)
                 {

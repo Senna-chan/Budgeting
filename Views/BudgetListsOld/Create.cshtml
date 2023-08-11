@@ -1,0 +1,61 @@
+﻿@model Budgeting.Models.BudgetEntryListCheckboxModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>BudgetList</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="@Model.budgetList.Name" class="control-label"></label>
+                <input asp-for="@Model.budgetList.Name" class="form-control" />
+                <span asp-validation-for="@Model.budgetList.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.budgetList.Description" class="control-label"></label>
+                <input asp-for="@Model.budgetList.Description" class="form-control" />
+                <span asp-validation-for="@Model.budgetList.Description" class="text-danger"></span>
+            </div>
+            <hr />
+            <label class="control-label">BudgetEntries in list</label>
+            <span class="btn-primary" onclick="selectAll()">Select all</span>
+            <span class="btn-primary" onclick="deselectAll()">Deselect all</span>
+            <hr />
+            @for (var index = 0; index < @Model.checkboxes.Count(); index++)
+            {
+                <input type="checkbox" asp-for="@Model.checkboxes[index].IsChecked" class="form-check-input chbsBudgetId" />
+                <label class="form-check-label" asp-for="@Model.checkboxes[index].IsChecked">
+                    @ViewBag.BudgetEntries[index].Name
+                </label>
+                <input type="hidden" asp-for="@Model.checkboxes[index].Id" />
+                <input type="hidden" asp-for="@Model.checkboxes[index].LabelName" />
+                <br />
+            }
+                
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        function selectAll() {
+            document.querySelectorAll(".chbsBudgetId").forEach(chb => chb.checked = true)
+        }
+        function deselectAll() {
+            document.querySelectorAll(".chbsBudgetId").forEach(chb => chb.checked = false)
+        }
+    </script>
+}

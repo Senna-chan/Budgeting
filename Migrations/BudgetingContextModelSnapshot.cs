@@ -19,6 +19,21 @@ namespace Budgeting.Migrations
                 .HasAnnotation("ProductVersion", "7.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("BudgetEntryBudgetList", b =>
+                {
+                    b.Property<int>("BudgetEntriesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ListsPartOfId")
+                        .HasColumnType("int");
+
+                    b.HasKey("BudgetEntriesId", "ListsPartOfId");
+
+                    b.HasIndex("ListsPartOfId");
+
+                    b.ToTable("BudgetEntryBudgetList");
+                });
+
             modelBuilder.Entity("Budgeting.Models.BudgetEntry", b =>
                 {
                     b.Property<int>("Id")
@@ -67,27 +82,6 @@ namespace Budgeting.Migrations
                     b.ToTable("BudgetEntry");
                 });
 
-            modelBuilder.Entity("Budgeting.Models.BudgetEntryList", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int>("BudgetEntryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BudgetListId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BudgetEntryId");
-
-                    b.HasIndex("BudgetListId");
-
-                    b.ToTable("BudgetEntryLists");
-                });
-
             modelBuilder.Entity("Budgeting.Models.BudgetList", b =>
                 {
                     b.Property<int>("Id")
@@ -95,7 +89,6 @@ namespace Budgeting.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Name")
@@ -107,23 +100,19 @@ namespace Budgeting.Migrations
                     b.ToTable("BudgetList");
                 });
 
-            modelBuilder.Entity("Budgeting.Models.BudgetEntryList", b =>
+            modelBuilder.Entity("BudgetEntryBudgetList", b =>
                 {
-                    b.HasOne("Budgeting.Models.BudgetEntry", "BudgetEntry")
+                    b.HasOne("Budgeting.Models.BudgetEntry", null)
                         .WithMany()
-                        .HasForeignKey("BudgetEntryId")
+                        .HasForeignKey("BudgetEntriesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Budgeting.Models.BudgetList", "BudgetList")
+                    b.HasOne("Budgeting.Models.BudgetList", null)
                         .WithMany()
-                        .HasForeignKey("BudgetListId")
+                        .HasForeignKey("ListsPartOfId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("BudgetEntry");
-
-                    b.Navigation("BudgetList");
                 });
 #pragma warning restore 612, 618
         }

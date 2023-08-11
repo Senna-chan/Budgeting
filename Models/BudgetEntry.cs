@@ -37,6 +37,8 @@ namespace Budgeting.Models
 
         public string? Description { get; set; }
 
+        public ICollection<BudgetList>? ListsPartOf { get; set; }
+
         public decimal CalcuteCostsForSpecificTime(TimeAmount timeAmount)
         {
             decimal pricePerDay = 0;
@@ -46,10 +48,10 @@ namespace Budgeting.Models
                 case TimeAmount.ONCE:
                     break;
                 case TimeAmount.WEEK:
-                    pricePerDay = MoneyAmount / (decimal)7;
+                    pricePerDay = MoneyAmount / 7;
                     break;
                 case TimeAmount.FOURWEEK:
-                    pricePerDay = MoneyAmount / (decimal)(7 * 4);
+                    pricePerDay = MoneyAmount / (7 * 4);
                     break;
                 case TimeAmount.MONTH:
                     pricePerDay = MoneyAmount / (decimal)30.5;
@@ -61,7 +63,7 @@ namespace Budgeting.Models
                     pricePerDay = MoneyAmount / (decimal)(30.5 * 6);
                     break;
                 case TimeAmount.YEAR:
-                    pricePerDay = MoneyAmount / (decimal)(365);
+                    pricePerDay = MoneyAmount / 365;
                     break;
             }
             switch (timeAmount)
@@ -69,10 +71,10 @@ namespace Budgeting.Models
                 case TimeAmount.ONCE:
                     break;
                 case TimeAmount.WEEK:
-                    result = pricePerDay * (decimal)7;
+                    result = pricePerDay * 7;
                     break;
                 case TimeAmount.FOURWEEK:
-                    result = pricePerDay * (decimal)(7 * 4);
+                    result = pricePerDay * (7 * 4);
                     break;
                 case TimeAmount.MONTH:
                     result = pricePerDay * (decimal)30.5;
@@ -84,7 +86,7 @@ namespace Budgeting.Models
                     result = pricePerDay * (decimal)(30.5 * 6);
                     break;
                 case TimeAmount.YEAR:
-                    result = pricePerDay * (decimal)(365);
+                    result = pricePerDay * 365;
                     break;
             }
             return result;

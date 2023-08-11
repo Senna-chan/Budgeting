@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\BudgetListsOld\Create.cshtml" />
+    <Content Remove="Views\BudgetListsOld\Delete.cshtml" />
+    <Content Remove="Views\BudgetListsOld\Details.cshtml" />
+    <Content Remove="Views\BudgetListsOld\Edit.cshtml" />
+    <Content Remove="Views\BudgetListsOld\Index.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FastExcel" Version="3.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.2" />
@@ -15,12 +23,21 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.14" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.15" />
     <PackageReference Include="MySql.EntityFrameworkCore" Version="7.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="Models\DatabaseModels\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\BudgetListsOld\Create.cshtml" />
+    <None Include="Views\BudgetListsOld\Delete.cshtml" />
+    <None Include="Views\BudgetListsOld\Details.cshtml" />
+    <None Include="Views\BudgetListsOld\Edit.cshtml" />
+    <None Include="Views\BudgetListsOld\Index.cshtml" />
   </ItemGroup>
 
 </Project>
