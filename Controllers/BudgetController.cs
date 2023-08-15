@@ -21,8 +21,8 @@ namespace Budgeting.Controllers
             _context = context;
         }
 
-        // GET: Budget/{
-        public async Task<IActionResult> Index(int listId = 0)
+        // GET: Budget/
+        public async Task<IActionResult> IndexOld(int listId = 0)
         {
             BudgetListModel blm = new BudgetListModel();
             blm.BudgetEntries = await _context.BudgetEntry.ToListAsync();
@@ -72,7 +72,7 @@ namespace Budgeting.Controllers
                     if (row.RowNumber == 1) continue;
                     List<Cell> columns = row.Cells.ToList();
                     BudgetEntry budgetEntry = new BudgetEntry();
-                    budgetEntry.FixedEntry = true;
+                    budgetEntry.VariableCosts = false;
                     foreach(Cell cell in columns)
                     {
                         Console.WriteLine($"CellColumn: {cell.ColumnName}, Value {cell.Value}");
@@ -190,11 +190,11 @@ namespace Budgeting.Controllers
 
             }
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(List));
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Budget/List
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> Index()
         {
             return _context.BudgetEntry != null ?
                         View(await _context.BudgetEntry.ToListAsync()) :
@@ -237,7 +237,7 @@ namespace Budgeting.Controllers
                 if (!budgetEntry.IsIncome) budgetEntry.MoneyAmount *= -1;
                 _context.Add(budgetEntry);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(Index));
             }
             return View(budgetEntry);
         }
@@ -288,7 +288,7 @@ namespace Budgeting.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(Index));
             }
             return View(budgetEntry);
         }
@@ -327,7 +327,7 @@ namespace Budgeting.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(List));
+            return RedirectToAction(nameof(Index));
         }
 
         private bool BudgetEntryExists(int id)

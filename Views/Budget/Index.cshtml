@@ -1,88 +1,57 @@
-﻿@model Budgeting.Models.BudgetListModel
+﻿@model IEnumerable<BudgetEntry>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "List";
 }
 
-<h1>Index</h1>
+<h1>List</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<h2>Combined budget per entry for all times</h2>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Name
-            </th>
-            @foreach (var time in Enum.GetValues(typeof(TimeAmount)))
-            {
-                if ((TimeAmount)time == TimeAmount.ONCE) continue;
-                <th>
-                    @time
-                </th>
-            }
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var combined in Model.CombinedPrices)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => combined.Key)
-                </td>
-                @foreach (var time in Enum.GetValues(typeof(TimeAmount)))
-                {
-                    if ((TimeAmount)time == TimeAmount.ONCE) continue;
-                    <td>
-                        @Html.DisplayFor(modelItem => combined.Value[(TimeAmount)time])
-                    </td>
-                }
-            </tr>
-        }
-    </tbody>
-</table>
 <table class="table" id="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.entry.FixedEntry)
+                @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.entry.Name)
+                @Html.DisplayNameFor(model => model.Category)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.entry.Category)
+                @Html.DisplayNameFor(model => model.IsIncome)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.entry.IsIncome)
+                @Html.DisplayNameFor(model => model.MoneyAmount)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.entry.MoneyAmount)
+                @Html.DisplayNameFor(model => model.TimeAmount)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.entry.TimeAmount)
+                @Html.DisplayNameFor(model => model.FromCreditcard)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.entry.FromCreditcard)
+                @Html.DisplayNameFor(model => model.ToSharedAccount)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.entry.ToSharedAccount)
+                @Html.DisplayNameFor(model => model.VariableCosts)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.entry.TransferTime)
+                @Html.DisplayNameFor(model => model.TransferTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpdatedDate)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.BudgetEntries)
+        @foreach (var item in Model)
         {
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FixedEntry)
-                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
@@ -105,7 +74,16 @@
                     @Html.DisplayFor(modelItem => item.ToSharedAccount)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.VariableCosts)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.TransferTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UpdatedDate)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
@@ -116,3 +94,18 @@
         }
     </tbody>
 </table>
+
+
+@section Styles {
+    <link rel="stylesheet" href="~/lib/datatables/css/jquery.dataTables.css" />
+}
+
+
+@section Scripts {
+    <script type="text/javascript" src="/lib/datatables/js/jquery.dataTables.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#table').DataTable();
+        });
+    </script>
+}

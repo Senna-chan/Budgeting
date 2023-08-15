@@ -7,10 +7,6 @@ namespace Budgeting.Models
     {
         public int Id { get; set; }
 
-        [DisplayName("Fixed entry")]
-        [DefaultValue(true)]
-        public bool FixedEntry { get; set; }
-
         public string Name { get; set; }
 
         public string? Category { get; set; }
@@ -31,6 +27,10 @@ namespace Budgeting.Models
 
         [DisplayName("Deposite to payment account")]
         public bool ToSharedAccount { get; set; }
+
+        [DisplayName("Variable Costs")]
+        [DefaultValue(false)]
+        public bool VariableCosts { get; set; }
 
         [DisplayName("Transfering on")]
         public DateTime? TransferTime { get; set; }

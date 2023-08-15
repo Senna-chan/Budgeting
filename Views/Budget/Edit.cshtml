@@ -13,11 +13,6 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="FixedEntry" /> @Html.DisplayNameFor(model => model.FixedEntry)
-                </label>
-            </div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
@@ -58,6 +53,11 @@
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="ToSharedAccount" /> @Html.DisplayNameFor(model => model.ToSharedAccount)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="VariableCosts" /> @Html.DisplayNameFor(model => model.VariableCosts)
                 </label>
             </div>
             <div class="form-group">

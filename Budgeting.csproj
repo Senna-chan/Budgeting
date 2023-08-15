@@ -12,6 +12,7 @@
     <Content Remove="Views\BudgetListsOld\Details.cshtml" />
     <Content Remove="Views\BudgetListsOld\Edit.cshtml" />
     <Content Remove="Views\BudgetListsOld\Index.cshtml" />
+    <Content Remove="Views\Budget\OLD_Index.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,6 +39,7 @@
     <None Include="Views\BudgetListsOld\Details.cshtml" />
     <None Include="Views\BudgetListsOld\Edit.cshtml" />
     <None Include="Views\BudgetListsOld\Index.cshtml" />
+    <None Include="Views\Budget\OLD_Index.cshtml" />
   </ItemGroup>
 
 </Project>

@@ -14,9 +14,6 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FixedEntry)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
@@ -37,15 +34,15 @@
             <th>
                 @Html.DisplayNameFor(model => model.ToSharedAccount)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VariableCosts)
+            </th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
             <tr style="background:@item.Description">
-                <td>
-                    @Html.DisplayFor(modelItem => item.FixedEntry)
-                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
@@ -66,6 +63,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ToSharedAccount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VariableCosts)
                 </td>
             </tr>
         }
