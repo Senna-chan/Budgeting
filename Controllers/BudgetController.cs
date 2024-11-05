@@ -21,39 +21,6 @@ namespace Budgeting.Controllers
             _context = context;
         }
 
-        // GET: Budget/
-        public async Task<IActionResult> IndexOld(int listId = 0)
-        {
-            BudgetListModel blm = new BudgetListModel();
-            blm.BudgetEntries = await _context.BudgetEntry.ToListAsync();
-            blm.BudgetEntries = blm.BudgetEntries.OrderBy(be => be.Category).ToList();
-            foreach (var entry in blm.BudgetEntries)
-            {
-
-                var moneyForAllTimes = entry.CalculateCostsForAllTimes();
-
-                blm.AddToCombinedPrices("all", moneyForAllTimes);
-                blm.AddToCombinedPrices(entry.IsIncome ? "income" : "expenses", moneyForAllTimes);
-
-                if (entry.Category != null)
-                {
-                    blm.AddToCombinedPrices(entry.Category, moneyForAllTimes);
-                }
-
-                if (entry.ToSharedAccount)
-                {
-                    blm.AddToCombinedPrices("To shared account", moneyForAllTimes);
-                }
-
-                if (entry.FromCreditcard)
-                {
-                    blm.AddToCombinedPrices("From creditcard", moneyForAllTimes);
-                }
-            }
-            return View(blm);
-                        
-        }
-
         private IEnumerable<BudgetEntry> ParseBudgetXML(string fileName)
         {
             var currentEntriesTask = _context.BudgetEntry.ToListAsync();
@@ -178,6 +145,7 @@ namespace Budgeting.Controllers
             var currentEntries = await _context.BudgetEntry.ToListAsync();
             foreach(var entry in fromImportEntries)
             {
+                entry.Description = ""; 
                 if (!entry.IsIncome) entry.MoneyAmount *= -1;
                 if(currentEntries.Any(ce => ce.Name == entry.Name))
                 {
@@ -222,6 +190,16 @@ namespace Budgeting.Controllers
         // GET: Budget/Create
         public IActionResult Create()
         {
+            List<string> categories = new List<string>();
+            foreach(string? category in _context.BudgetEntry.ToList().Select(b => b.Category).ToList())
+            {
+                if (category == null) continue;
+                if(!categories.Contains(category))
+                {
+                    categories.Add(category);
+                }
+            }
+            ViewBag.categories = categories;
             return View();
         }
 
@@ -230,11 +208,17 @@ namespace Budgeting.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FixedEntry,Name,Category,IsIncome,MoneyAmount,TimeAmount,FromCreditcard,ToSharedAccount,TransferTime")] BudgetEntry budgetEntry)
+        public async Task<IActionResult> Create([Bind("Id,Name,Category,IsIncome,MoneyAmount,TimeAmount,FromCreditcard,ToSharedAccount,VariableCosts,TransferTime")] BudgetEntry budgetEntry)
         {
             if (ModelState.IsValid)
             {
-                if (!budgetEntry.IsIncome) budgetEntry.MoneyAmount *= -1;
+                if (!budgetEntry.IsIncome)
+                {
+                    if (budgetEntry.MoneyAmount > 0)
+                    {
+                        budgetEntry.MoneyAmount *= -1;
+                    }
+                }
                 _context.Add(budgetEntry);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -255,6 +239,18 @@ namespace Budgeting.Controllers
             {
                 return NotFound();
             }
+
+
+            List<string> categories = new List<string>();
+            foreach (string? category in _context.BudgetEntry.ToList().Select(b => b.Category).ToList())
+            {
+                if (category == null) continue;
+                if (!categories.Contains(category))
+                {
+                    categories.Add(category);
+                }
+            }
+            ViewBag.categories = categories;
             return View(budgetEntry);
         }
 
@@ -263,7 +259,7 @@ namespace Budgeting.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FixedEntry,Name,Category,IsIncome,MoneyAmount,TimeAmount,FromCreditcard,ToSharedAccount,TransferTime")] BudgetEntry budgetEntry)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Category,IsIncome,MoneyAmount,TimeAmount,FromCreditcard,ToSharedAccount,VariableCosts,TransferTime")] BudgetEntry budgetEntry)
         {
             if (id != budgetEntry.Id)
             {
@@ -272,6 +268,13 @@ namespace Budgeting.Controllers
 
             if (ModelState.IsValid)
             {
+                if (!budgetEntry.IsIncome)
+                {
+                    if (budgetEntry.MoneyAmount > 0)
+                    {
+                        budgetEntry.MoneyAmount *= -1;
+                    }
+                }
                 try
                 {
                     _context.Update(budgetEntry);

@@ -19,12 +19,13 @@
             </div>
             <div class="form-group">
                 <label asp-for="Category" class="control-label"></label>
-                <input asp-for="Category" class="form-control" />
+                <input asp-for="Category" class="form-control" list="categories" />
+                <datalist id="categories" asp-list="@ViewBag.categories"></datalist>
                 <span asp-validation-for="Category" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsIncome" checked="checked"/> @Html.DisplayNameFor(model => model.IsIncome)
+                    <input class="form-check-input" asp-for="IsIncome"/> @Html.DisplayNameFor(model => model.IsIncome)
                 </label>
             </div>
             <div class="form-group">

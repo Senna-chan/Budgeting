@@ -10,11 +10,13 @@ namespace Budgeting
         {
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddDbContext<BudgetingContext>(options =>
-                options.UseMySQL(builder.Configuration.GetConnectionString("BudgetingContext") ?? throw new InvalidOperationException("Connection string 'BudgetingContext' not found.")));
+                options.EnableDetailedErrors()
+                .EnableSensitiveDataLogging()
+                .UseMySQL(builder.Configuration.GetConnectionString("BudgetingContext") ?? throw new InvalidOperationException("Connection string 'BudgetingContext' not found.")));
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-
+            builder.Services.AddTagHelperPack();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -34,7 +36,7 @@ namespace Budgeting
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Budget}/{action=List}/{id?}");
+                pattern: "{controller=Budget}/{action=Index}/{id?}");
 
             app.Run();
         }

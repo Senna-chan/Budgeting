@@ -14,8 +14,13 @@
             CombinedPrices = new Dictionary<string, Dictionary<TimeAmount, decimal>>
             {
                 { "all", entry.CalculateCostsForAllTimes() },
+                { "all_with_variable", entry.CalculateCostsForAllTimes() },
                 { "income", entry.CalculateCostsForAllTimes() },
-                { "expenses", entry.CalculateCostsForAllTimes() }
+                { "income_with_variable", entry.CalculateCostsForAllTimes() },
+                { "expenses", entry.CalculateCostsForAllTimes() },
+                { "expenses_with_variable", entry.CalculateCostsForAllTimes() },
+                { "To shared account", entry.CalculateCostsForAllTimes() },
+                { "From creditcard", entry.CalculateCostsForAllTimes() }
             };
         }
 

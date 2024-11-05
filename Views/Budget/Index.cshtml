@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<BudgetEntry>
 
 @{
-    ViewData["Title"] = "List";
+    ViewData["Title"] = "Index";
 }
 
-<h1>List</h1>
+<h1>Index</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -59,7 +59,7 @@
                     @Html.DisplayFor(modelItem => item.Category)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.IsIncome)
+                    @(item.IsIncome ? "Income" : "Expense")
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.MoneyAmount)
@@ -68,13 +68,13 @@
                     @Html.DisplayFor(modelItem => item.TimeAmount)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.FromCreditcard)
+                    @(item.FromCreditcard ? "Yes" : "")
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ToSharedAccount)
+                    @(item.ToSharedAccount ? "Yes" : "")
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.VariableCosts)
+                    @(item.VariableCosts ? "Yes" : "")
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.TransferTime)
@@ -95,17 +95,36 @@
     </tbody>
 </table>
 
-
 @section Styles {
-    <link rel="stylesheet" href="~/lib/datatables/css/jquery.dataTables.css" />
+    <link rel="stylesheet" href="~/lib/datatables/datatables.css" />
 }
 
-
 @section Scripts {
-    <script type="text/javascript" src="/lib/datatables/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="/lib/datatables/datatables.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#table').DataTable();
+            $('#table').DataTable({
+                pageLength: -1,
+                dom: 'Bfrtip',
+                columnDefs: [
+                    // {
+                    //     targets: 0,
+                    //     className: 'noVis'
+                    // },
+                    {
+                        targets: [8,9,10,],
+                        visible: false
+                    }
+                ],
+                buttons: [
+                    'copy', 'excel', 'pdf',
+                    {
+                        //extend: 'columnsToggle',
+                        extend: 'colvis',
+                        columns: ':not(.noVis)'
+                    }
+                ]
+            });
         });
     </script>
 }

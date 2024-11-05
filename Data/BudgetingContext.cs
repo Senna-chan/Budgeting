@@ -8,6 +8,7 @@ namespace Budgeting.Data
         public BudgetingContext(DbContextOptions<BudgetingContext> options)
             : base(options)
         {
+         
         }
 
 
